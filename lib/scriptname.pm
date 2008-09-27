@@ -7,7 +7,7 @@ use 5.008;
 my($myname, $mybase, $mydir);
 
 BEGIN {
-  use version; our $VERSION = qv('0.3');
+  use version; our $VERSION = qv('0.4');
   our $AUTHORITY = 'MASSA';
 
   use Carp;
@@ -29,9 +29,9 @@ BEGIN {
   our %EXPORT_TAGS = (all => [@EXPORT_OK]);
 }
 
-sub myname() { $myname }
-sub mybase() { $mybase }
-sub mydir()  { $mydir  }
+sub myname() { $myname } ## no critic
+sub mybase() { $mybase } ## no critic
+sub mydir()  { $mydir  } ## no critic
 sub _mylib   { map realpath("$mydir/$_"), @_ }
 
 sub import {
@@ -61,7 +61,7 @@ scriptname - Locate original perl script
 
 =head1 VERSION
 
-This document describes scriptname version 0.3
+This document describes scriptname version 0.4
 
 
 =head1 SYNOPSIS
@@ -82,7 +82,7 @@ you can also use
 
     no scriptname lib => '../lib';
 
-to unload a relative lib from the @INC path.
+to remove a relative path from C<@INC>.
 
 =head1 DESCRIPTION
 
@@ -93,7 +93,9 @@ paths relative to the script's directory in @INC.
 This allows a user to setup a directory tree for some software with
 directories C<< <root>/bin >> and C<< <root>/lib >>, and then the above
 example will allow the use of modules in the lib directory without knowing
-where the software tree is installed.
+where the software tree is installed, even if the name by which the script
+was called is a symbolic link to the path where the C<../bin> and the
+C<../lib> actually are.
 
 If perl is invoked using the B<-e> option or the perl script is read from
 C<STDIN> then the module sets C<mydir> to the current working
@@ -151,7 +153,67 @@ Also depends on C<version>.
 
 =head1 INCOMPATIBILITIES
 
-None reported (so far).
+=head2 Differences from C<< FindBin >>
+
+C<scriptname> does not search B<PATH>. It makes one of the following assumptions:
+
+=over
+
+=item C<$0> comes with an absolute filename (starting from root)
+
+This can happen:
+
+=over
+
+=item *
+
+When the script was called with B<perl -S> -- in this case, perl looked the B<PATH> for the script;
+
+=item *
+
+When the script was called with B<perl> I<absolute_file_name>;
+
+=item *
+
+When the script was called by the shebang and the shell/kernel (whoever
+interpreted the shebang) was passed pathless command name -- 
+when the shell/kernel searched the B<PATH> and found the file,
+it passes the absolute filename to B<perl>;
+
+=item *
+
+When the script was called by the shebang and the shell/kernel was
+passed an absolute filename --
+when this is the case, the shell/kernel passes the absolute pathname unaltered to
+B<perl>.
+
+=back
+
+=item C<$0> comes with a filename relative to the current directory
+
+This happens:
+
+=over
+
+=item *
+
+When the script was called with B<perl> I<relative_file_name> -- B<perl> will
+search the filename under the current directory;
+
+=item *
+
+When the script was called by the shebang and the shell/kernel was
+passed a relative filename -- when this is the case, the kernel/shell passes
+the relative filename to B<perl>, also unaltered.
+
+=back
+
+=back
+
+C<scriptname> follows symbolic links.
+
+And C<scriptname> has the B<lib> option, to prepend library paths relative
+to C<scriptname::mydir> to B<@INC>.
 
 =head1 BUGS AND LIMITATIONS
 
