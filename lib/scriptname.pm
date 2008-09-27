@@ -2,12 +2,12 @@ package scriptname;
 
 use strict;
 use warnings;
-use 5.008;
+use 5.000;
 
 my($myname, $mybase, $mydir);
 
 BEGIN {
-  use version; our $VERSION = qv('0.4');
+  our $VERSION = '0.5';
   our $AUTHORITY = 'MASSA';
 
   use Carp;
@@ -61,7 +61,7 @@ scriptname - Locate original perl script
 
 =head1 VERSION
 
-This document describes scriptname version 0.4
+This document describes scriptname version 0.5
 
 
 =head1 SYNOPSIS
