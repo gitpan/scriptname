@@ -7,7 +7,7 @@ use 5.000;
 my($myname, $mybase, $mydir);
 
 BEGIN {
-  our $VERSION = '0.5';
+  our $VERSION = '0.6';
   our $AUTHORITY = 'MASSA';
 
   use Carp;
@@ -61,7 +61,7 @@ scriptname - Locate original perl script
 
 =head1 VERSION
 
-This document describes scriptname version 0.5
+This document describes scriptname version 0.6
 
 
 =head1 SYNOPSIS
@@ -149,7 +149,8 @@ please, don't do that.
 perl5.8 and the standard modules C<File::Basename>, C<Carp>,
 C<Exporter>, C<Cwd> and C<lib>.
 
-Also depends on C<version>.
+The tests depend on C<Test::More>, which is a standard module,
+and C<Test::Perl::Critic>, which is not.
 
 =head1 INCOMPATIBILITIES
 
