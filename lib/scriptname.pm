@@ -1,4 +1,5 @@
 package scriptname;
+# ABSTRACT: Locate original perl script
 
 use strict;
 use warnings;
@@ -7,7 +8,7 @@ use 5.000;
 my($myname, $mybase, $mydir);
 
 BEGIN {
-  our $VERSION = '0.6';
+  our $VERSION = '0.8';
   our $AUTHORITY = 'MASSA';
 
   use Carp;
@@ -32,7 +33,7 @@ BEGIN {
 sub myname() { $myname } ## no critic
 sub mybase() { $mybase } ## no critic
 sub mydir()  { $mydir  } ## no critic
-sub _mylib   { map realpath("$mydir/$_"), @_ }
+sub _mylib   { map realpath("$mydir/$_"), (@_ ? @_ : qw(./lib)) }
 
 sub import {
   my $package = shift;
@@ -50,19 +51,19 @@ sub unimport {
 }
 
 # Magic true value required at end of module
-1
+1;
+
 
 __END__
+=pod
 
 =head1 NAME
 
 scriptname - Locate original perl script
 
-
 =head1 VERSION
 
-This document describes scriptname version 0.6
-
+version 0.8
 
 =head1 SYNOPSIS
 
@@ -82,7 +83,15 @@ you can also use
 
     no scriptname lib => '../lib';
 
-to remove a relative path from C<@INC>.
+to remove a relative path from C<@INC>. As a special case,
+
+    use scriptname 'lib';
+
+is equivalent to
+
+    use scriptname lib => 'lib';
+
+(unshift the path to the current script + 'lib' in @INC)
 
 =head1 DESCRIPTION
 
@@ -101,27 +110,24 @@ If perl is invoked using the B<-e> option or the perl script is read from
 C<STDIN> then the module sets C<mydir> to the current working
 directory.
 
-=head1 EXPORTABLE FUNCTIONS
+=head1 FUNCTIONS
 
-=over
-
-=item C<< myname >>
+=head2 myname
 
 fully qualified path for the script (with all links resolved), undef if called
 from C<-e> or C<STDIN>
 
-=item C<< mybase >>
+=head2 mybase
 
 basename of C<myname>, or undef
 
-=item C<< mydir >>
+=head2 mydir
 
 dirname of C<myname>, or the current working directory if called from C<-e> or C<STDIN>
 
-=back
+=head2 $0
 
 The result of C<myname> is also put in C<$0> unless called from C<-e> or C<STDIN>.
-
 
 =head1 DIAGNOSTICS
 
@@ -149,8 +155,7 @@ please, don't do that.
 perl5.8 and the standard modules C<File::Basename>, C<Carp>,
 C<Exporter>, C<Cwd> and C<lib>.
 
-The tests depend on C<Test::More>, which is a standard module,
-and C<Test::Perl::Critic>, which is not.
+Also depends on C<version>.
 
 =head1 INCOMPATIBILITIES
 
@@ -224,23 +229,15 @@ Please report any bugs or feature requests to
 C<bug-scriptname@rt.cpan.org>, or through the web interface at
 L<http://rt.cpan.org>.
 
+=head1 ALTERNATIVE LICENSE TERMS
 
-=head1 AUTHOR
-
-Humberto Massa  C<< <massa@cpan.org> >>
-
-=head1 LICENCE AND COPYRIGHT
-
-Copyright (c) 2008, Humberto Massa C<< <massa@cpan.org> >>. All rights reserved.
-
-This module is free software; you can redistribute it and/or modify it
-under the same terms as Perl itself. See L<perlartistic>.  Optionally,
-you can redistribute and/or modify it under the terms of any of the
-following licenses, at your will: GNU GPLv2, GNU GPLv3, CC-GPLv2,
-CC-SAv3.0.
+Optionally, instead of using the Perl 5 programming language licensing
+terms, you are also autorized to redistribute and/or modify it under the
+terms of any of the following licenses, at your will: GNU LGPLv2, GNU
+LGPLv3, CC-LGPLv2, CC-By-SAv3.0.
 
 Please notice that the alternatives given in the previous paragraph apply
-B<only for this module>.
+B<only for this module> and other modules where explicitly stated.
 
 =head1 DISCLAIMER OF WARRANTY
 
@@ -264,3 +261,17 @@ RENDERED INACCURATE OR LOSSES SUSTAINED BY YOU OR THIRD PARTIES OR A
 FAILURE OF THE SOFTWARE TO OPERATE WITH ANY OTHER SOFTWARE), EVEN IF
 SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF
 SUCH DAMAGES.
+
+=head1 AUTHOR
+
+Humberto Massa <massa@cpan.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2012 by Humberto Massa.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
+=cut
+
