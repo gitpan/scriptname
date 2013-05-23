@@ -8,7 +8,7 @@ use 5.000;
 my($myname, $mybase, $mydir);
 
 BEGIN {
-  our $VERSION = '0.9';
+  our $VERSION = '0.10';
   our $AUTHORITY = 'MASSA';
 
   use Carp;
@@ -63,7 +63,7 @@ scriptname - Locate original perl script
 
 =head1 VERSION
 
-version 0.9
+version 0.10
 
 =head1 SYNOPSIS
 
@@ -268,7 +268,7 @@ Humberto Massa <massa@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2012 by Humberto Massa.
+This software is copyright (c) 2013 by Humberto Massa.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
