@@ -8,7 +8,7 @@ use 5.000;
 my($myname, $mybase, $mydir);
 
 BEGIN {
-  our $VERSION = '0.10';
+  our $VERSION = '0.11';
   our $AUTHORITY = 'MASSA';
 
   use Carp;
@@ -63,7 +63,7 @@ scriptname - Locate original perl script
 
 =head1 VERSION
 
-version 0.10
+version 0.11
 
 =head1 SYNOPSIS
 
@@ -228,6 +228,10 @@ See L<KNOWN ISSUES>.
 Please report any bugs or feature requests to
 C<bug-scriptname@rt.cpan.org>, or through the web interface at
 L<http://rt.cpan.org>.
+
+= head1 THANKS
+
+C<stevenl@cpan.org>, for pointing a silly mistake in my tests
 
 =head1 ALTERNATIVE LICENSE TERMS
 
